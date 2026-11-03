@@ -44,7 +44,7 @@
     if (line.stops.includes(to)) return false;
     if (line.stops.length === 0) { line.stops = [from, to]; }
     else if (line.stops[line.stops.length - 1] === from) line.stops.push(to);
-    else if (line.stops[0] === from) line.stops.unshift(to);
+    else if (line.stops[0] === from) { line.stops.unshift(to); for (const t of st.trains) if (t.line === li) t.i += 1; }      // 앞에 붙이면 번호가 한 칸씩 밀리니 열차도 같이
     else return false;
     ensureTrain(st, line);
     st.events.push({ type: 'connect', line: li, n: line.stops.length });

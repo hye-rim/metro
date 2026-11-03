@@ -121,3 +121,13 @@ test('spare trains arrive over time and can be added to a line', () => {
   assert.strictEqual(st.spare, 0);
   assert.strictEqual(M.addTrain(st, 1), false);
 });
+
+test('extending at the start keeps trains on the same stretch', () => {
+  const st = M.newGame(M.rng(1), { tutorial: true });
+  M.connect(st, 0, 1, 2);
+  run(st, 3);
+  const tr = st.trains[0], before = M.trainPos(st, tr);
+  M.connect(st, 0, 1, 0);
+  const after = M.trainPos(st, tr);
+  assert.ok(Math.hypot(before.x - after.x, before.y - after.y) < 1);
+});
